@@ -141,13 +141,13 @@ public class UserController {
 	}
 
 	/* 로그인 페이지 이동 */
-	@GetMapping("/login")
+	@GetMapping("/login-register")
 	public void loginPageGET() {
 		logger.info("로그인 페이지 진입");
 	}
 
 	/* 로그인 */
-	@PostMapping("/login")
+	@PostMapping("/login-register")
 	public String loginPOST(HttpServletRequest request, UserVO user, RedirectAttributes rttr) throws Exception {
 
 		HttpSession session = request.getSession();
@@ -167,12 +167,12 @@ public class UserController {
 				return "redirect:/main"; // 메인페이지 이동
 			} else {
 				rttr.addFlashAttribute("result", 0);
-				return "redirect:/user/login"; // 로그인 페이지로 이동
+				return "redirect:/user/login-register"; // 로그인 페이지로 이동
 			}
 
 		} else { // 일지하는 아이디가 존재하지 않을 시 (로그인 실패)
 			rttr.addFlashAttribute("result", 0);
-			return "redirect:/user/login"; // 로그인 페이지로 이동
+			return "redirect:/user/login-register"; // 로그인 페이지로 이동
 		}
 
 	}

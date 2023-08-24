@@ -75,7 +75,7 @@ a {
 				<ul class="list">
 					<c:if test="${user == null}">
 						<!-- 로그인 x -->
-						<li><a href="/user/login">로그인</a></li>
+						<li><a href="/user/login-register">로그인</a></li>
 						<li><a href="/user/join">회원가입</a></li>
 					</c:if>
 					<c:if test="${user != null }">
@@ -103,7 +103,7 @@ a {
 					<!-- 로그인 하지 않은 상태 -->
 					<c:if test="${user == null }">
 						<div class="login_button">
-							<a href="/user/login">로그인</a>
+							<a href="/user/login-register">로그인</a>
 						</div>
 						<span><a href="/user/join">회원가입</a></span>
 					</c:if>
