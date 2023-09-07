@@ -92,11 +92,11 @@
 		SELECT
 		P.PRODUCT_ID,
 		P.UNO,
-		P.PRODUCT_KEYWORD, P.INFO_TITLE, P.INFO_CONTENT,
+		P.PRODUCT_TITLE, P.PRODUCT_CONTENT,
 		P.PRODUCT_VIEW_CNT,
 		P.PRODUCT_REPORT_NO,
 		P.PRODUCT_BLINDSTATE,
-		I.INFO_REGDATE,
+		P.PRODUCT_REGDATE,
 		P.PRODUCT_UPDATE,
 		P.PRODUCT_UPDATE_UNO,
 		U.NICKNAME
@@ -125,7 +125,7 @@
 	</resultMap>
 
 	<!-- 조인을 활용한 상품 판매자 정보 -->
-	<select id="getBoardUserinfo" resultType="ProductUserDTO">
+	<select id="getBoardUserInfo" resultType="ProductUserDTO">
 		SELECT
 		pb.PRODUCT_Id,
 		pb.PRODUCT_TITLE,
@@ -145,7 +145,7 @@
 	</select>
 
 	<!-- 게시글 수정 -->
-	<update id="modify">
+	<update id="updateProduct">
 		update PRODUCT_BOARD set PRODUCT_TITLE =
 		#{productTitle}, PRODUCT_CONTENT =
 		#{productContent}, PRODUCT_PRICE =

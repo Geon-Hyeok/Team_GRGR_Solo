@@ -56,6 +56,7 @@ public class ProductBoardController {
 			model.addAttribute("isLastPost", nextProductId == null);
 			model.addAttribute("isFirstPost", preProductId == null);
 			model.addAttribute("searchCondition", searchCondition);
+			model.addAttribute("userInfo", productBoardService.getBoardUserInfo(productId));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,9 +78,9 @@ public class ProductBoardController {
 			@RequestParam(value = "files", required = false) List<MultipartFile> files)
 			throws WriteNullException, FileUploadFailException, IOException {
 
-		int newProductId = productBoardService.addProduct(productBoard, files);
+		productBoardService.addProduct(productBoard, files);
 
-		return "redirect:/board/list?productId=" + newProductId;
+		return "redirect:/productboard/list";
 	}
 
 	/* 수정 페이지 이동 */

@@ -135,11 +135,11 @@ public class ProductBoardServiceImpl implements ProductBoardService {
 				productFile.setProductFileOrigin(multipartfile.getOriginalFilename());
 				productFile.setProductFileUpload(uploadFileName);
 
-				productBoardDAO.insertProduct(productBoard);
+				productBoardDAO.insertProductFile(productFile);
 
 			}
 		}
-		return 0;
+		return productBoard.getProductId();
 	}
 
 	@Override
