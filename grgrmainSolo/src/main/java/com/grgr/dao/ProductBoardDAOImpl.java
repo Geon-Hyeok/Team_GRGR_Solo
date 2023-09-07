@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.grgr.dto.InfoFile;
 import com.grgr.dto.ProductBoardVO;
+import com.grgr.dto.ProductFile;
 import com.grgr.dto.ProductUserDTO;
 import com.grgr.mapper.InfoBoardMapper;
 import com.grgr.mapper.ProductBoardMapper;
@@ -93,15 +94,15 @@ public class ProductBoardDAOImpl implements ProductBoardDAO {
 	}
 
 	@Override
-	public int insertInfoFile(InfoFile infoFile) {
+	public int insertProductFile(ProductFile productFile) {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(ProductBoardMapper.class).insertInfoFile(infoFile);
+		return sqlSession.getMapper(ProductBoardMapper.class).insertProductFile(productFile);
 	}
 
 	@Override
-	public List<InfoFile> selectInfoFile(int infoBno) {
+	public List<ProductFile> selectProductFile(int productId) {
 		// TODO Auto-generated method stub
-		return sqlSession.getMapper(ProductBoardMapper.class).selectInfoFile(infoBno);
+		return sqlSession.getMapper(ProductBoardMapper.class).selectProductFile(productId);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.grgr.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.grgr.dto.ProductBoardVO;
 import com.grgr.dto.ProductUserDTO;
-
+import com.grgr.exception.FileUploadFailException;
+import com.grgr.exception.WriteNullException;
 import com.grgr.util.SearchCondition;
 
 public interface ProductBoardService {
@@ -23,13 +25,14 @@ public interface ProductBoardService {
 	Integer nextProductId(SearchCondition searchCondition, int productId);
 
 	/* 게시판 등록 */
-	int addProduct(ProductBoardVO productBoard, List<MultipartFile> files);
+	int addProduct(ProductBoardVO productBoard, List<MultipartFile> files)
+			throws WriteNullException, FileUploadFailException, IOException;
 
 	/* 게시판 수정 */
-	int modifyProduct(ProductBoardVO productBoard);
+	void modifyProduct(ProductBoardVO productBoard);
 
 	/* 게시판 삭제 */
-	int removeProduct(int productId, int uno);
+	void removeProduct(int productId, int uno);
 
 	/* 조회수 증가 */
 	// int increaseProductViewCnt(int productId);
@@ -43,6 +46,6 @@ public interface ProductBoardService {
 	/* 게시판 상품 정보와 회원 정보 함께 조회 */
 	ProductUserDTO getBoardUserInfo(int productId);
 
-	int hideProductBoard(int productId, int loginUser, int loginUserStatus);
+	void hideProductBoard(int productId, int loginUser, int loginUserStatus);
 
 }

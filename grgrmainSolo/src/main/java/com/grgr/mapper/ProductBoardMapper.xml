@@ -22,9 +22,9 @@
 	</sql>
 
 	<!-- 총게시글 수 -->
-	<select id="productCount" resultType="int">
+	<select id="productBoardCount" resultType="int">
 		SELECT COUNT(*)
-		FROM INFO_BOARD I
+		FROM Product_BOARD P
 		JOIN USERINFO U ON P.UNO = U.UNO
 		WHERE
 		<include refid="search" />
@@ -34,8 +34,8 @@
 
 	<!-- 게시판 등록 -->
 	<insert id="insertProduct">
-		<selectKey keyProperty="productId"
-			resultType="int" order="BEFORE">
+		<selectKey keyProperty="productId" resultType="int"
+			order="BEFORE">
 			SELECT PRODUCT_Id_SEQ.NEXTVAL
 			FROM DUAL
 		</selectKey>
@@ -50,12 +50,13 @@
 		#{productTitle},
 		#{productContent},
 		#{productPrice},
-		#{uno}, #{productUpdateUno}
+		#{uno},
+		#{productUpdateUno}
 		)
 	</insert>
 
 	<!-- 게시판 목록 -->
-	<select id="getProductList" resultType="ProductBoardVO">
+	<select id="selectProductBoardList" resultType="ProductBoardVO">
 		SELECT * FROM (
 		SELECT ROWNUM NUM, PRODUCT.* FROM (
 		SELECT
@@ -72,14 +73,14 @@
 		P.PRODUCT_UPDATE_UNO,
 		U.NICKNAME
 		FROM
-		PRODUCT_BOARD I
+		PRODUCT_BOARD P
 		JOIN
 		USERINFO U on P.UNO = U.UNO
 		WHERE
 		<include refid="search" />
 		P.PRODUCT_BLINDSTATE = 1
-		ORDER BY P.PRODUCT_ID DESC
-		) PRODUCT_BOARD
+		ORDER BY P.PRODUCT_REGDATE DESC
+		) PRODUCT
 		)
 		WHERE NUM BETWEEN #{startRow} AND
 		#{endRow}
@@ -90,7 +91,7 @@
 	<select id="selectProductBoard" resultType="ProductBoardVO">
 		SELECT
 		P.PRODUCT_ID,
-		[].UNO,
+		P.UNO,
 		P.PRODUCT_KEYWORD, P.INFO_TITLE, P.INFO_CONTENT,
 		P.PRODUCT_VIEW_CNT,
 		P.PRODUCT_REPORT_NO,
@@ -100,7 +101,7 @@
 		P.PRODUCT_UPDATE_UNO,
 		U.NICKNAME
 		from
-		PRODUCT_BOARD I
+		PRODUCT_BOARD P
 		join
 		USERINFO U on P.UNO = U.UNO
 		where
@@ -150,7 +151,8 @@
 		#{productContent}, PRODUCT_PRICE =
 		#{productPrice},
 		PRODUCT_UPDATE =
-		sysdate, PRODUCT_UPDATE_UNO =#{uno} where PRODUCT_ID =
+		sysdate, PRODUCT_UPDATE_UNO =#{uno}
+		where PRODUCT_ID =
 		#{productId} and UNO = #{uno}
 	</update>
 
@@ -165,7 +167,8 @@
 
 	<!-- 이미지파일 업로드 : PRODUCT_FILE_UPDATE_UNO 는 로그인 기능 완성시 추가할 것 -->
 	<insert id="insertProductFile">
-		insert into product_file (product_file_no, product_id,
+		insert into product_file (product_file_no,
+		product_id,
 		product_file_origin, product_file_upload)
 		values
 		(product_file_seq.nextval,#{productId}, #{productFileOrigin},
@@ -173,11 +176,35 @@
 	</insert>
 
 	<!-- 이미지파일 검색 -->
-	<select id="selectInfoFile">
-		select info_file_no, info_bno, info_file_origin,
-		info_file_upload from info_file where info_bno = #{infoBno}
+	<select id="selectProductFile">
+		select product_file_no, product_id,
+		product_file_origin,
+		product_file_upload from product_file where
+		Product_Id = #{productId}
 		order by
-		info_file_no
+		product_file_no
+	</select>
+
+	<!-- 이전 글 번호 찾기 -->
+	<select id="selectPrevProductId" resultType="int">
+		select max(P.Product_Id)
+		from PRODUCT_BOARD P
+		join USERINFO U on P.UNO =
+		U.UNO
+		where
+		<include refid="search" />
+		P.product_id &lt; #{productId} and P.product_blindstate = 1
+	</select>
+
+	<!-- 다음 글 번호 찾기 -->
+	<select id="selectNextProductId" resultType="int">
+		select min(P.Product_Id)
+		from PRODUCT_BOARD P
+		join USERINFO U on P.UNO =
+		U.UNO
+		where
+		<include refid="search" />
+		P.product_id &lt; #{productId} and P.product_blindstate = 1
 	</select>
 
 </mapper>

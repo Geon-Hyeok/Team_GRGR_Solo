@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.grgr.dto.InfoFile;
 import com.grgr.dto.ProductBoardVO;
+import com.grgr.dto.ProductFile;
 import com.grgr.dto.ProductUserDTO;
 
 
@@ -45,7 +45,7 @@ public interface ProductBoardDAO {
 	int blindProductBoard(Map<String, Object> map);
 
 	// 사진
-	int insertInfoFile(InfoFile infoFile);
+	int insertProductFile(ProductFile productFile);
 
-	List<InfoFile> selectInfoFile(int infoBno);
+	List<ProductFile> selectProductFile(int productId);
 }
